@@ -34,9 +34,12 @@ public class BacktrackingSolver implements Solver {
         int sizeEmptyCells = emptyCells.size();
         int sizeSearchSpace = (int) Math.pow(sizeEmptyCells, 9);
 
-        // Set the maximal size if try all inputs
-        progressBar.setMax(sizeSearchSpace);
-        progressBar.setProgress(0);
+        if(progressBar != null) {
+            // Set the maximal size if try all inputs
+            progressBar.setMax(sizeSearchSpace);
+            progressBar.setProgress(0);
+
+        }
 
         int[][] grid = input.toArray();
         boolean isSolution = solveSubProblem(grid);
@@ -48,7 +51,8 @@ public class BacktrackingSolver implements Solver {
             sudoku.setStatus(SolutionStatus.NO_SOLUTION);
         }
 
-        progressBar.setProgress(sizeSearchSpace);
+        if(progressBar != null)
+            progressBar.setProgress(sizeSearchSpace);
 
         return sudoku;
     }
@@ -65,7 +69,9 @@ public class BacktrackingSolver implements Solver {
             grid[emptyCellIdx[0]][emptyCellIdx[1]] = value;
 
             if(!subSudokuIsValid(grid, emptyCellIdx[0], emptyCellIdx[1])) {
-                progressBar.incrementProgressBy(1);
+                if(progressBar != null)
+                    progressBar.incrementProgressBy(1);
+
                 grid[emptyCellIdx[0]][emptyCellIdx[1]] = 0;
             } else {
                 boolean subSolution = this.solveSubProblem(grid);

@@ -22,8 +22,8 @@ public class Sudoku {
 
     public Sudoku(int[][] grid) {
         boolean isNotValid = false;
-        for(int i = 0; i < grid.length; i++) {
-            if(grid[i].length != GRID_SIZE) {
+        for (int[] ints : grid) {
+            if (ints.length != GRID_SIZE) {
                 isNotValid = true;
                 break;
             }
@@ -32,8 +32,6 @@ public class Sudoku {
             throw new IllegalArgumentException("The size of the grid is not " + GRID_SIZE + "x" +
                     GRID_SIZE + ".");
         }
-
-        Log.d(SudokuInputActivity.LOG_TAG, "create new sudoku");
 
         this.grid = grid;
         status = SolutionStatus.INCOMPLETE;

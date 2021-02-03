@@ -37,7 +37,8 @@ public class RuleSolver implements Solver {
         this.sudoku = sudoku;
         List<int[]> emptyCells = this.sudoku.getEmptyCells();
 
-        progressBar.setProgress(Sudoku.GRID_SIZE * Sudoku.GRID_SIZE - emptyCells.size());
+        if(progressBar != null)
+            progressBar.setProgress(Sudoku.GRID_SIZE * Sudoku.GRID_SIZE - emptyCells.size());
 
         Set<Integer> possibleValues;
         List<int[]> emptyCellsToVisit;
@@ -59,7 +60,8 @@ public class RuleSolver implements Solver {
                     this.sudoku.setValue(cell[0], cell[1],value );
                     emptyCells.remove(cell);
 
-                    progressBar.incrementProgressBy(1);
+                    if(progressBar != null)
+                        progressBar.incrementProgressBy(1);
                 }
             }
 

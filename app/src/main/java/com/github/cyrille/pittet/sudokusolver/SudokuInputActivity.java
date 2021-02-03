@@ -41,9 +41,6 @@ public class SudokuInputActivity extends AppCompatActivity {
 
     private Solver solver;
 
-    //TODO: remove this
-    private int[][] basis;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,41 +51,6 @@ public class SudokuInputActivity extends AppCompatActivity {
         sudokuGrid = findViewById(R.id.grid_sudoku_input);
 
         text_cells = new EditText[Sudoku.GRID_SIZE][Sudoku.GRID_SIZE];
-
-        //TODO: remove this
-        basis = new int[9][9];
-        basis[0][1] = 7;
-        basis[0][3] = 6;
-        basis[0][6] = 3;
-        basis[1][2] = 4;
-        basis[1][4] = 1;
-        basis[1][8] = 5;
-        basis[2][0] = 5;
-        basis[2][2] = 6;
-        basis[2][4] = 4;
-        basis[2][6] = 9;
-        basis[2][7] = 7;
-        basis[3][3] = 4;
-        basis[3][5] = 3;
-        basis[3][8] = 2;
-        basis[4][1] = 4;
-        basis[4][2] = 9;
-        basis[4][6] = 7;
-        basis[4][7] = 8;
-        basis[5][0] = 7;
-        basis[5][3] = 8;
-        basis[5][5] = 6;
-        basis[6][1] = 9;
-        basis[6][2] = 7;
-        basis[6][4] = 8;
-        basis[6][6] = 6;
-        basis[6][8] = 3;
-        basis[7][0] = 4;
-        basis[7][4] = 3;
-        basis[7][6] = 8;
-        basis[8][2] = 3;
-        basis[8][5] = 4;
-        basis[8][7] = 2;
 
         setupGridView();
 
@@ -121,9 +83,6 @@ public class SudokuInputActivity extends AppCompatActivity {
 
             for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
                 View cell = getLayoutInflater().inflate(R.layout.cell_layout, null);
-
-                //TODO: remove this
-                ((EditText) cell).setText(String.valueOf(basis[i][j]));
 
                 row.addView(cell);
                 text_cells[i][j] = (EditText) cell;

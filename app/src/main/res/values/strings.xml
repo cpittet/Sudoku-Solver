@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sudoku Solver</string>
+    <string name="button_enter_new_txt">Enter a new sudoku</string>
+    <string name="button_solve_txt">Solve</string>
+    <string name="result_txt_solution_found">Solution found !</string>
+    <string name="result_txt_not_able_find_solution">The algorithm was not able to find a solution.</string>
+    <string name="result_txt_no_solution">This sudoku seems to not have a solution !</string>
+</resources>

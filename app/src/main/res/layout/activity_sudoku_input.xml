@@ -25,12 +25,14 @@
         android:id="@+id/button_solve_sudoku"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:onClick="solveSudoku"
         android:text="@string/button_solve_txt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="solveSudoku"/>
+        app:layout_constraintStart_toEndOf="@+id/button_reset_sudoku" />
 
     <ProgressBar
         android:id="@+id/progress_bar_solving"
@@ -59,4 +61,17 @@
         app:layout_constraintBottom_toTopOf="@+id/progress_bar_solving"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_reset_sudoku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/button_reset_sudoku_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_solve_sudoku"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="resestSudoku"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

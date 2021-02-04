@@ -5,4 +5,5 @@
     <string name="result_txt_solution_found">Solution found !</string>
     <string name="result_txt_not_able_find_solution">The algorithm was not able to find a solution.</string>
     <string name="result_txt_no_solution">This sudoku seems to not have a solution !</string>
+    <string name="button_reset_sudoku_txt">Reset</string>
 </resources>

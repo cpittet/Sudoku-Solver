@@ -1,12 +1,9 @@
 package com.github.cyrille.pittet.sudokusolver;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +20,6 @@ import com.github.cyrille.pittet.sudokusolver.solvers.Solver;
 import com.github.cyrille.pittet.sudokusolver.sudoku.SolutionStatus;
 import com.github.cyrille.pittet.sudokusolver.sudoku.Sudoku;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class SudokuInputActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "DEBUGGING";
@@ -34,10 +28,11 @@ public class SudokuInputActivity extends AppCompatActivity {
     private static final String NOT_ABLE_TO_FIND_SOLUTION = "The algorithm was not able to find a solution.";
 
     private ProgressBar progressBar;
-    private TextView result_txt_solving;
+    private TextView resultTxtSolving;
     private TableLayout sudokuGrid;
+    private Button resetButton;
 
-    private EditText[][] text_cells;
+    private EditText[][] textCells;
 
     private Solver solver;
 
@@ -47,33 +42,15 @@ public class SudokuInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sudoku_input);
 
         progressBar = findViewById(R.id.progress_bar_solving);
-        result_txt_solving = findViewById(R.id.result_txt_solving);
+        resultTxtSolving = findViewById(R.id.result_txt_solving);
         sudokuGrid = findViewById(R.id.grid_sudoku_input);
+        resetButton = findViewById(R.id.button_reset_sudoku);
 
-        text_cells = new EditText[Sudoku.GRID_SIZE][Sudoku.GRID_SIZE];
+        textCells = new EditText[Sudoku.GRID_SIZE][Sudoku.GRID_SIZE];
 
         setupGridView();
 
         solver = new CompositeSolver(new RuleSolver(progressBar), new BacktrackingSolver(progressBar));
-
-        if(savedInstanceState != null) {
-            for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
-                for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                    text_cells[i][j].setText(savedInstanceState.getString("" + i + j));
-                }
-            }
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
-            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                outState.putString("" + i + j, text_cells[i][j].getText().toString());
-            }
-        }
     }
 
     private void setupGridView() {
@@ -85,7 +62,7 @@ public class SudokuInputActivity extends AppCompatActivity {
                 View cell = getLayoutInflater().inflate(R.layout.cell_layout, null);
 
                 row.addView(cell);
-                text_cells[i][j] = (EditText) cell;
+                textCells[i][j] = (EditText) cell;
             }
             sudokuGrid.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT));
         }
@@ -95,7 +72,7 @@ public class SudokuInputActivity extends AppCompatActivity {
         int[][] input = new int[Sudoku.GRID_SIZE][Sudoku.GRID_SIZE];
         for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
             for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                String cellValue = text_cells[i][j].getText().toString();
+                String cellValue = textCells[i][j].getText().toString();
                 if(!cellValue.equals("")) {
                     input[i][j] = Integer.parseInt(cellValue);
                 }
@@ -108,7 +85,7 @@ public class SudokuInputActivity extends AppCompatActivity {
         for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
             for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
                 if(solution[i][j] != 0) {
-                    (text_cells[i][j]).setText(String.valueOf(solution[i][j]));
+                    textCells[i][j].setText(String.valueOf(solution[i][j]));
                 }
             }
         }
@@ -130,17 +107,25 @@ public class SudokuInputActivity extends AppCompatActivity {
 
         if(solutionStatus == SolutionStatus.COMPLETE) {
             writeSolution(solution.toArray());
-            result_txt_solving.setText(R.string.result_txt_solution_found);
+            resultTxtSolving.setText(R.string.result_txt_solution_found);
         } else if(solutionStatus == SolutionStatus.NOT_ABLE_TO_FIND_SOLUTION) {
             showMessage(NOT_ABLE_TO_FIND_SOLUTION);
 
             // Write partial solution
             writeSolution(solution.toArray());
-            result_txt_solving.setText(R.string.result_txt_not_able_find_solution);
+            resultTxtSolving.setText(R.string.result_txt_not_able_find_solution);
         } else {
             showMessage(NO_SOLUTION_TXT);
-            result_txt_solving.setText(R.string.result_txt_no_solution);
+            resultTxtSolving.setText(R.string.result_txt_no_solution);
         }
-        result_txt_solving.setVisibility(View.VISIBLE);
+        resultTxtSolving.setVisibility(View.VISIBLE);
+    }
+
+    public void resestSudoku(View view) {
+        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
+            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
+                textCells[i][j].setText("");
+            }
+        }
     }
 }

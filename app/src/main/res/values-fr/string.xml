@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sudoku Solver</string>
+    <string name="button_enter_new_txt">Entrer un nouveau sudoku</string>
+    <string name="button_solve_txt">Résoudre</string>
+    <string name="result_txt_solution_found">Solution trouvé !</string>
+    <string name="result_txt_not_able_find_solution">L\'algorithme n\'a pas pu trouvé de solution.</string>
+    <string name="result_txt_no_solution">Ce sudoku semble ne pas avoir de solution !</string>
+    <string name="button_reset_sudoku_txt">Reset</string>
+    <string name="sudoku_already_complete">Ce sudoku est déjà complet !</string>
+    <string name="sudoku_input_not_valid">Ce sudoku n\'est pas valide !</string>
+</resources>

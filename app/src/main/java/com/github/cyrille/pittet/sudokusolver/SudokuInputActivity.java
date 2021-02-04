@@ -1,9 +1,6 @@
 package com.github.cyrille.pittet.sudokusolver;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +9,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.cyrille.pittet.sudokusolver.solvers.BacktrackingSolver;
 import com.github.cyrille.pittet.sudokusolver.solvers.CompositeSolver;
@@ -54,11 +53,11 @@ public class SudokuInputActivity extends AppCompatActivity {
     }
 
     private void setupGridView() {
-        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
+        for (int i = 0; i < Sudoku.GRID_SIZE; i++) {
             TableRow row = new TableRow(this);
             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
 
-            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
+            for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
                 View cell = getLayoutInflater().inflate(R.layout.cell_layout, null);
 
                 row.addView(cell);
@@ -70,10 +69,10 @@ public class SudokuInputActivity extends AppCompatActivity {
 
     private int[][] gatherInput() {
         int[][] input = new int[Sudoku.GRID_SIZE][Sudoku.GRID_SIZE];
-        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
-            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
+        for (int i = 0; i < Sudoku.GRID_SIZE; i++) {
+            for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
                 String cellValue = textCells[i][j].getText().toString();
-                if(!cellValue.equals("")) {
+                if (!cellValue.equals("")) {
                     input[i][j] = Integer.parseInt(cellValue);
                 }
             }
@@ -82,9 +81,9 @@ public class SudokuInputActivity extends AppCompatActivity {
     }
 
     private void writeSolution(int[][] solution) {
-        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
-            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                if(solution[i][j] != 0) {
+        for (int i = 0; i < Sudoku.GRID_SIZE; i++) {
+            for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
+                if (solution[i][j] != 0) {
                     textCells[i][j].setText(String.valueOf(solution[i][j]));
                 }
             }
@@ -97,18 +96,27 @@ public class SudokuInputActivity extends AppCompatActivity {
     }
 
     public void solveSudoku(View view) {
-        progressBar.setVisibility(View.VISIBLE);
-
         int[][] input = gatherInput();
         Sudoku sudoku = new Sudoku(input);
 
+        int emptyCells = sudoku.getEmptyCells().size();
+
+        if (emptyCells == 0) {
+            showMessage(getString(R.string.sudoku_already_complete));
+            return;
+        }
+        if (!sudoku.sudokuIsValid()) {
+            showMessage(getString(R.string.sudoku_input_not_valid));
+            return;
+        }
+        progressBar.setVisibility(View.VISIBLE);
         Sudoku solution = solver.solve(sudoku);
         SolutionStatus solutionStatus = solution.getStatus();
 
-        if(solutionStatus == SolutionStatus.COMPLETE) {
+        if (solutionStatus == SolutionStatus.COMPLETE) {
             writeSolution(solution.toArray());
             resultTxtSolving.setText(R.string.result_txt_solution_found);
-        } else if(solutionStatus == SolutionStatus.NOT_ABLE_TO_FIND_SOLUTION) {
+        } else if (solutionStatus == SolutionStatus.NOT_ABLE_TO_FIND_SOLUTION) {
             showMessage(NOT_ABLE_TO_FIND_SOLUTION);
 
             // Write partial solution
@@ -122,10 +130,14 @@ public class SudokuInputActivity extends AppCompatActivity {
     }
 
     public void resestSudoku(View view) {
-        for(int i = 0; i < Sudoku.GRID_SIZE; i++) {
-            for(int j = 0; j < Sudoku.GRID_SIZE; j++) {
+        for (int i = 0; i < Sudoku.GRID_SIZE; i++) {
+            for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
                 textCells[i][j].setText("");
             }
         }
+
+        progressBar.setVisibility(View.INVISIBLE);
+        resultTxtSolving.setVisibility(View.INVISIBLE);
+        resultTxtSolving.setText("");
     }
 }

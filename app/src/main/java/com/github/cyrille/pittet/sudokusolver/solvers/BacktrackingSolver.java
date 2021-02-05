@@ -5,6 +5,9 @@ import android.widget.ProgressBar;
 import com.github.cyrille.pittet.sudokusolver.sudoku.SolutionStatus;
 import com.github.cyrille.pittet.sudokusolver.sudoku.Sudoku;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +59,9 @@ public class BacktrackingSolver implements Solver {
             return true;
         }
 
-        for (int value = 1; value <= Sudoku.GRID_SIZE; value++) {
+        List<Integer> values = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        Collections.shuffle(values);
+        for (int value : values) {
             grid[emptyCellIdx[0]][emptyCellIdx[1]] = value;
 
             if (!(new Sudoku(grid)).sudokuIsValid(emptyCellIdx[0], emptyCellIdx[1])) {
